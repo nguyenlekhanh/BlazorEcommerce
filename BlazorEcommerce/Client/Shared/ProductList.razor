@@ -1,0 +1,52 @@
+﻿<h3>ProductList</h3>
+
+<ul class="list-unstyled">
+    @foreach(var product in Products)
+    {
+        <li class="media my-3">
+            <div class="media-img-wrapper mr-2">
+                <a href="#">
+                    <img class="media-img" src="@product.ImageUrl" alt="@product.Title"/>
+                </a>
+            </div>
+            <div class="media-body">
+                <a href="#">
+                    <h4 class="">@product.Title</h4>
+                </a>
+                <p>@product.Description</p>
+                <h5 class="proce">
+                    $@product.Price
+                </h5>
+            </div>
+        </li>
+    }
+</ul>
+@code {
+    public static List<Product> Products = new List<Product>
+    {
+        new BlazorEcommerce.Shared.Product
+        {
+            Id = 1,
+            Title = "Lorem title 1",
+            Description = "Description title",
+            ImageUrl = "https://placehold.co/100",
+            Price = 9.99M
+        },
+        new BlazorEcommerce.Shared.Product
+        {
+            Id = 2,
+            Title = "Lorem title 2",
+            Description = "Description title",
+            ImageUrl = "https://placehold.co/100",
+            Price = 7.99M
+        },
+        new BlazorEcommerce.Shared.Product
+        {
+            Id = 3,
+            Title = "Lorem title 3",
+            Description = "Description title",
+            ImageUrl = "https://placehold.co/100",
+            Price = 6.99M
+        }
+    };
+}
