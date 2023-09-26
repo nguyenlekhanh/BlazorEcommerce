@@ -1,4 +1,5 @@
 using BlazorEcommerce.Server.Controllers.Data;
+using BlazorEcommerce.Server.Services.ProductService;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,7 +13,7 @@ builder.Services.AddRazorPages();
 builder.Services.AddDbContext<DataContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
 );
-
+builder.Services.AddScoped<IProductService, ProductService>();
 
 var app = builder.Build();
 
