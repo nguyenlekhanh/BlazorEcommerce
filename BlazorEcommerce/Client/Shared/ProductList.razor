@@ -1,4 +1,6 @@
-﻿<h3>ProductList</h3>
+﻿@inject HttpClient Http
+
+<h3>ProductList</h3>
 
 <ul class="list-unstyled">
     @foreach(var product in Products)
@@ -22,31 +24,11 @@
     }
 </ul>
 @code {
-    public static List<Product> Products = new List<Product>
+    private static List<Product> Products { get; set; } = new List<Product>();
+
+    protected override async Task OnInitializedAsync()
     {
-        new BlazorEcommerce.Shared.Product
-        {
-            Id = 1,
-            Title = "Lorem title 1",
-            Description = "Description title",
-            ImageUrl = "https://placehold.co/100",
-            Price = 9.99M
-        },
-        new BlazorEcommerce.Shared.Product
-        {
-            Id = 2,
-            Title = "Lorem title 2",
-            Description = "Description title",
-            ImageUrl = "https://placehold.co/100",
-            Price = 7.99M
-        },
-        new BlazorEcommerce.Shared.Product
-        {
-            Id = 3,
-            Title = "Lorem title 3",
-            Description = "Description title",
-            ImageUrl = "https://placehold.co/100",
-            Price = 6.99M
-        }
-    };
+        Products = await Http.GetFromJsonAsync<List<Product>>("api/Product");
+    }
+
 }
