@@ -2,6 +2,8 @@
 @page "/search/{searchText}"
 @page "/searchSuggestions/{searchText}"
 @page "/{categoryUrl}"
+@implements IAsyncDisposable
+@inject IJSRuntime JS
 @inject IProductService ProductService
 
 <ProductList />
@@ -22,5 +24,27 @@
         }
 
         await ProductService.GetProducts(CategoryUrl);
+    }
+
+    private IJSObjectReference? module;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            module = await JS.InvokeAsync<IJSObjectReference>("import",
+                "./Pages/Index.razor.js");
+            // var MyJsModule = await JSRuntime.InvokeAsync<IJSObjectReference>("import", "./Components/Pages/Index.razor.js");
+            await module.InvokeVoidAsync("showPrompt");
+            await module.InvokeVoidAsync("AddViewer", "foo");
+        }
+    }
+
+    async ValueTask IAsyncDisposable.DisposeAsync()
+    {
+        if (module is not null)
+        {
+            await module.DisposeAsync();
+        }
     }
 }
