@@ -28,7 +28,15 @@
             </div>
         </li>
     }
-</ul>
+    </ul>
+    for(int i=1; i<= ProductService.PageCount; i++)
+    {
+        <a class="btn page-selection @(i == ProductService.CurrentPage ? "btn-info" : "btn-outline-info")"
+            href="/search/@ProductService.LastSearchText/@i"
+        >
+            @i
+        </a>
+    }
 }
 
 @code {
