@@ -1,4 +1,6 @@
 ﻿@page "/"
+@page "/search/{searchText}"
+@page "/searchSuggestions/{searchText}"
 @page "/{categoryUrl}"
 @inject IProductService ProductService
 
@@ -8,8 +10,17 @@
     [Parameter]  //when navigate to another url then OnParameterSetAsync will run
     public string CategoryUrl { get; set; } = null;
 
+    [Parameter]  //when navigate to another url then OnParameterSetAsync will run
+    public string SearchText { get; set; } = null;
+
     protected override async Task OnParametersSetAsync()
     {
+        if(SearchText != null)
+        {
+            await ProductService.SearchProducts(SearchText);
+            return;
+        }
+
         await ProductService.GetProducts(CategoryUrl);
     }
 }
