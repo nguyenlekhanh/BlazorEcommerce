@@ -7,6 +7,8 @@ namespace BlazorEcommerce.Client.Services.ProductService
     {
         private readonly HttpClient _http;
 
+        public event Action ProductsChanged;
+
         public ProductService(HttpClient http)
         {
             _http = http;
@@ -14,12 +16,15 @@ namespace BlazorEcommerce.Client.Services.ProductService
 
         public List<Product> Products { get; set; } = new List<Product>();
 
-        public async Task GetProducts()
+        public async Task GetProducts(string categoryUrl = null)
         {
-            var result = await _http.GetFromJsonAsync<ServiceResponse<List<Product>>>("api/Product");
+            var result = categoryUrl == null ?
+                await _http.GetFromJsonAsync<ServiceResponse<List<Product>>>("api/Product") :
+                await _http.GetFromJsonAsync<ServiceResponse<List<Product>>>($"api/Product/Category/{categoryUrl}");
             if(result is not null)
             {
                 Products = result.Data;
+                ProductsChanged.Invoke();
             }            
         }
 
