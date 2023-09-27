@@ -6,7 +6,13 @@
 @inject IJSRuntime JS
 @inject IProductService ProductService
 
-<ProductList />
+@if(SearchText == null && CategoryUrl == null)
+{
+    <FeaturedProducts />
+} else
+{
+    <ProductList />
+}
 
 @code {
     [Parameter]  //when navigate to another url then OnParameterSetAsync will run
@@ -21,9 +27,15 @@
         {
             await ProductService.SearchProducts(SearchText);
             return;
+        } else if(CategoryUrl != null)
+        {
+            await ProductService.GetProducts(CategoryUrl);
+        } else
+        {
+            await ProductService.GetProducts();
         }
 
-        await ProductService.GetProducts(CategoryUrl);
+        
     }
 
     private IJSObjectReference? module;
