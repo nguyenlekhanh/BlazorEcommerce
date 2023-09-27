@@ -34,9 +34,8 @@
         {
             module = await JS.InvokeAsync<IJSObjectReference>("import",
                 "./Pages/Index.razor.js");
-            // var MyJsModule = await JSRuntime.InvokeAsync<IJSObjectReference>("import", "./Components/Pages/Index.razor.js");
-            await module.InvokeVoidAsync("showPrompt");
-            await module.InvokeVoidAsync("AddViewer", "foo");
+            // await module.InvokeVoidAsync("showPrompt");
+            // await module.InvokeVoidAsync("AddViewer", "foo");
         }
     }
 
